@@ -21,7 +21,9 @@ A multinomial logistic regression on four pre-match features clearly beats the b
 
 ## Data
 
-[football-data.co.uk](https://www.football-data.co.uk/englandm.php) Premier League season files, 2012/13 to 2025/26: results, shots, shots on target and bookmaker odds. `notes.txt` is the site's column dictionary. The data belongs to football-data.co.uk and is included here only to make the analysis reproducible.
+[football-data.co.uk](https://www.football-data.co.uk/englandm.php) Premier League season files, 2012/13 to 2025/26: results, shots, shots on target and bookmaker odds. The data belongs to football-data.co.uk and is not included in this repository.
+
+**To get the data:** on the [England page](https://www.football-data.co.uk/englandm.php), download the Premier League file for each season from 2012/13 to 2025/26 (each downloads as `E0.csv`). Rename each file to its season, `2012-2013.csv` … `2025-2026.csv`, and put them next to the notebook. The site also has a notes page explaining every column.
 
 | Seasons | Role |
 |---|---|
@@ -32,7 +34,7 @@ A multinomial logistic regression on four pre-match features clearly beats the b
 
 ## Method
 
-1. **Data checks:** 380 matches per season, no missing values or duplicates, results consistent with goals, consistent team names. The checks are enforced with `assert` statements.
+1. **Data checks:** 380 matches per season, no missing values or duplicates, results consistent with goals, consistent team names. Every check is enforced with an `assert`.
 2. **Baselines:**
    - uniform (1/3 each)
    - historical frequencies from the training seasons
@@ -71,9 +73,8 @@ The steps after Elo are small (about 0.005 in total) and their 95% intervals inc
 
 - Only Premier League matches: no European or cup fixtures, so rest days and fixture congestion are not modelled.
 - No team news (injuries, line-ups), which the market has.
-- A new club starts at the league-average Elo (1500), too high for a typical promoted side; a club returning after years away keeps its old Elo rating and last-5 statistics. The fading promoted flag only partly corrects this.
+- A club returning after years away keeps its old Elo rating and last-5 statistics.
 - The test seasons were used for 8 comparisons, which makes their scores slightly optimistic.
-- The bootstrap resamples single matches and ignores differences between seasons, so the intervals are probably slightly too narrow.
 - The holdout is a single season.
 - The Elo settings are common defaults, not tuned.
 
@@ -93,7 +94,7 @@ pip install -r requirements.txt
 jupyter notebook epl_forecast.ipynb
 ```
 
-Keep the season CSV files in the same folder as the notebook and run **Kernel → Restart & Run All**. The notebook recreates the charts in `figures/`.
+Download the season files (see Data) into the same folder as the notebook and run **Kernel → Restart & Run All**. The notebook recreates the charts in `figures/`.
 
 Tested with pandas 2.3.3, numpy 1.26.4 and scikit-learn 1.7.2. Gradient-boosting scores can change slightly with other scikit-learn versions.
 
@@ -102,9 +103,6 @@ Tested with pandas 2.3.3, numpy 1.26.4 and scikit-learn 1.7.2. Gradient-boosting
 | File | Content |
 |---|---|
 | `epl_forecast.ipynb` | Full analysis, with outputs: data checks, features, models, calibration, error analysis, holdout |
-| `epl_forecast.html` | The same notebook exported as a web page |
 | `figures/` | Charts used in this README |
-| `2012-2013.csv` … `2025-2026.csv` | Season data from football-data.co.uk |
-| `notes.txt` | Column dictionary from football-data.co.uk |
 | `requirements.txt` | Python packages |
-| `LICENSE` | MIT license for the code (not the data) |
+| `LICENSE` | MIT license for the code |
