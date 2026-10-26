@@ -1,0 +1,13 @@
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.venv/
+.env
+.DS_Store
+
+# Data from football-data.co.uk (not redistributed; see README)
+*.csv
+notes.txt
+
+# Notebook export
+*.html
